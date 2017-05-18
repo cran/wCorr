@@ -2,7 +2,6 @@
 require(knitr)
 require(wCorr)
 require(lattice)
-require(doBy)
 require(captioner)
 
 # set layout so a figure label appears to go with the figure

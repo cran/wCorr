@@ -1,7 +1,6 @@
 ## ----packages and data, echo=FALSE, results="hide", message=FALSE, warning=FALSE----
 require(wCorr)
 require(lattice)
-require(doBy)
 require(captioner)
 # set layout so a figure label appears to go with the figure
 trellis.device()
@@ -43,7 +42,7 @@ par(ann=FALSE)
 par(mar=c(5,2,1,1)+0.1)
 plot(x,y,type="l",xlab="y",ylab="Density", xaxt="n", yaxt="n")
 axis(1,at=c(-2,-0.5,1.6), labels=expression(theta[3],theta[4],theta[5]))
-text(x=c(-2.5,-1.25,0.55,2.3),y=0.05, labels=paste0("m=",1:4))
+text(x=c(-2.5,-1.25,0.55,2.3),y=c(0.05,0.05,0.05,0.08), labels=paste0("m=",1:4))
 theta <- c(-2,-0.5,1.6)
 for(i in 1:3) {
   lines(rep(theta[i],2), c(-1,dnorm(theta[i])))
@@ -55,7 +54,7 @@ par(mgp=c(3,1,0))
 title(xlab="Y")
 par(par0)
 
-## ----bias vs rho, echo=FALSE,fig.width=7, fig.height=5-------------------
+## ----bias Versus rho, echo=FALSE,fig.width=7, fig.height=5---------------
 #bias$rmse <- sqrt( (bias$est - bias$rho)^2 )
 #bias$bias <- bias$est - bias$rho
 #aggbias <- summaryBy(bias + rmse  ~ n + rho + type, data=bias, FUN=mean, na.rm=TRUE)
@@ -70,7 +69,7 @@ xyplot(bias.mean ~ rho|type,
       auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
       par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----rmse vs rho, echo=FALSE,fig.width=7, fig.height=3.5-----------------
+## ----rmse Versus rho, echo=FALSE,fig.width=7, fig.height=3.5-------------
 xyplot(rmse.mean ~ rho|type,
       data=aggbias,
       groups=n,
@@ -81,7 +80,7 @@ xyplot(rmse.mean ~ rho|type,
       auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
       par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----rmse vs n, echo=FALSE,fig.width=7, fig.height=3.5-------------------
+## ----rmse Versus n, echo=FALSE,fig.width=7, fig.height=3.5---------------
 #aggbias2 <- summaryBy(rmse  ~ n+type, data=bias, FUN=mean, na.rm=TRUE)
 xyplot(rmse.mean ~ n,
      groups=type,
@@ -93,7 +92,7 @@ xyplot(rmse.mean ~ n,
       auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
       par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----time vs n, echo=FALSE,fig.width=7, fig.height=4---------------------
+## ----time Versus n, echo=FALSE,fig.width=7, fig.height=4-----------------
 # agg <- summaryBy(t ~ n + type, data=ntime, FUN=mean, na.rm=TRUE)
 # agg$t.mean <- ifelse(agg$t.mean==0, 0.001,agg$t.mean)
 
@@ -107,7 +106,7 @@ xyplot(t.mean ~ n,
        auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----wgt vs rho plot, echo=FALSE,fig.width=7, fig.height=5.5-------------
+## ----wgt Versus rho plot, echo=FALSE,fig.width=7, fig.height=5.5---------
 # wgt <- wgtvrho
 # wgt$absdrho <- abs(wgt$est - wgt$rho)
 # 

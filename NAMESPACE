@@ -1,9 +1,10 @@
 importFrom(Rcpp, evalCpp)
-useDynLib(wCorr)
+useDynLib(wCorr, .registration=TRUE)
 export(weightedCorr)
 importFrom(minqa,bobyqa)
 importFrom(mnormt,biv.nt.prob)
-importFrom(stats, cor,
+importFrom(stats, aggregate,
+                  cor,
                   dnorm,
                   optim,
                   optimize,
@@ -14,4 +15,3 @@ importFrom(stats, cor,
                   sd,
                   weighted.mean
                   )
-importFrom(doBy, summaryBy)
