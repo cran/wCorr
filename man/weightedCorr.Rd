@@ -4,8 +4,14 @@
 \alias{weightedCorr}
 \title{Calculates bivariate Pearson, Spearman, polychoric, and polyserial correlation coefficients}
 \usage{
-weightedCorr(x, y, method = c("Pearson", "Spearman", "Polyserial",
-  "Polychoric"), weights = rep(1, length(x)), ML = FALSE, fast = TRUE)
+weightedCorr(
+  x,
+  y,
+  method = c("Pearson", "Spearman", "Polyserial", "Polychoric"),
+  weights = rep(1, length(x)),
+  ML = FALSE,
+  fast = TRUE
+)
 }
 \arguments{
 \item{x}{a numeric (or numeric factor in case of polychoric) vector or an object that can be

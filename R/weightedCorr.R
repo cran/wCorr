@@ -61,6 +61,10 @@
 #' @seealso \ifelse{latex}{\code{cor}}{\code{\link[stats]{cor}}}
 #'
 #' @export
+#' @import Rcpp
+#' @import stats
+#' @useDynLib wCorr, .registration = TRUE
+
 weightedCorr <- function(x, y, method = c("Pearson", "Spearman", "Polyserial", "Polychoric"), weights=rep(1,length(x)), ML=FALSE, fast=TRUE) {
   x <- as.numeric(x)
   y <- as.numeric(y)

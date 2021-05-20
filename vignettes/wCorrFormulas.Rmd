@@ -11,9 +11,10 @@ vignette: |
   \usepackage{amssymb}
 ---
 
-```{r packages and data, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
+```{r packagesAndData, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
 require(wCorr)
 require(lattice)
+require(doBy)
 require(captioner)
 # set layout so a figure label appears to go with the figure
 trellis.device()
@@ -37,7 +38,7 @@ load("../R/sysdata.rda")
 ```
 
 
-```{r tables and figures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
+```{r tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
 fig_nums <- captioner()
 table_nums <- captioner(prefix = "Table")
 
@@ -250,7 +251,7 @@ The Spearman correlation shows bias at all of the tested levels of $n$. The bias
 
 
 **`r fig_nums("biasVsRho", display="cite")`.** *Bias Versus $\rho$ for Unweighted Correlations.*    
-```{r bias Versus rho, echo=FALSE,fig.width=7, fig.height=5}
+```{r biasVersusrho, echo=FALSE,fig.width=7, fig.height=5}
 #bias$rmse <- sqrt( (bias$est - bias$rho)^2 )
 #bias$bias <- bias$est - bias$rho
 #aggbias <- summaryBy(bias + rmse  ~ n + rho + type, data=bias, FUN=mean, na.rm=TRUE)
@@ -272,7 +273,7 @@ xyplot(bias.mean ~ rho|type,
 
 
 **`r fig_nums("rmseVsRho", display="cite")`.** *Root Mean Square Error Versus $\rho$ for Unweighted Correlations.*   
-```{r rmse Versus rho, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r rmseVersusrho, echo=FALSE,fig.width=7, fig.height=3.5}
 xyplot(rmse.mean ~ rho|type,
       data=aggbias,
       groups=n,
@@ -291,7 +292,7 @@ xyplot(rmse.mean ~ rho|type,
 The plot also shows that the RMSE is less than 0.1 for all methods when $n>100$.
 
 **`r fig_nums("rmseVsN", display="cite")`.** *Root Mean Square Error Versus sample size for Unweighted Correlations.*   
-```{r rmse Versus n, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r rmseVersusN, echo=FALSE,fig.width=7, fig.height=3.5}
 #aggbias2 <- summaryBy(rmse  ~ n+type, data=bias, FUN=mean, na.rm=TRUE)
 xyplot(rmse.mean ~ n,
      groups=type,
@@ -309,7 +310,7 @@ xyplot(rmse.mean ~ n,
 `r fig_nums("speedi", display="cite")` shows the mean time (in seconds) to compute a single correlation coefficient as a function of $\rho$ by $n$ size. The plot shows linearly rising computation times with slopes of about one. This is consistent with a linear computation cost. Using Big O notation, the computation cost is, in the range shown, O($n$). The slope of the Spearman is slightly faster and the algorithm has a O($n \mathrm{lg}(n)$) sort involved, so this is, again, expected.
 
 **`r fig_nums("speedi", display="cite")`.** *Computation time.*    
-```{r time Versus n, echo=FALSE,fig.width=7, fig.height=4}
+```{r timeVersusN, echo=FALSE,fig.width=7, fig.height=4}
 # agg <- summaryBy(t ~ n + type, data=ntime, FUN=mean, na.rm=TRUE)
 # agg$t.mean <- ifelse(agg$t.mean==0, 0.001,agg$t.mean)
 
@@ -347,7 +348,7 @@ as a function of $\rho$ and was run for $n=100$ and  $\rho \in \left( -0.99, -0.
 The following plot shows the MAD for the weighted and unweighted results as a function of $\rho$ when $n=100$. This shows that for values of $\rho$ near zero, under our simulation assumptions (for all but the Spearman correlation) the weighted correlation performs better than (that is, has lower MAD than) the unweighted correlation for all correlation coefficients. Over the entire range, the difference between the two is never such that the unweighted has a lower MAD. Thus, under the simulated conditions at least, the weighted correlation has lower or approximately equal MAD for every value of the true correlation coefficient ($\rho$).
 
 **`r fig_nums("rmseVsRho2", display="cite")`.** *Mean Absolute Deviation Versus $\rho$ (Weighted).*   
-```{r wgt Versus rho plot, echo=FALSE,fig.width=7, fig.height=5.5}
+```{r wgtVersusRhoPlot, echo=FALSE,fig.width=7, fig.height=5.5}
 # wgt <- wgtvrho
 # wgt$absdrho <- abs(wgt$est - wgt$rho)
 # 
@@ -375,7 +376,7 @@ Thus, the results in `r fig_nums("rmseVsN2", display="cite")` show that, when co
 In all cases the RMSE is lower for the weighted than the unweighted. Again, the fact that the simulations show that the unweighted correlation coefficient is not consistent does not imply that it will always be that way--only that this is possible for these coefficients to not be consistent.
 
 **`r fig_nums("rmseVsN2", display="cite")`.** *Root Mean Square Error Versus $\rho$ (Polyserial, Pearson, Polychoric panels) or Population Spearman correlation coefficient (Spearman panel) for Weighted Correlations*   
-```{r wgt v n plot, echo=FALSE,fig.width=7, fig.height=5.5}
+```{r wgtVsNPlot, echo=FALSE,fig.width=7, fig.height=5.5}
 # wgtvn <- wgtvn[wgtvn$type!= "Spearman",]
 # 
 # wgt <- rbind(wgtvn, spear)

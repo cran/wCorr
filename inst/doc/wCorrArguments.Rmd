@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-```{r packages and data, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
+```{r packagesAndData, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
 require(knitr)
 require(wCorr)
 require(lattice)
@@ -31,7 +31,7 @@ trellis.par.set(list(layout.widths  = list(left.padding = 3, right.padding = 3),
 load("../R/sysdata.rda")
 ```
 
-```{r setup fast, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
+```{r setupFast, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
 # fast$i <- rep(1:(nrow(fast)/2),each=2)
 # mfast <- merge(subset(fast,fast),
 #                subset(fast,!fast, c("i", "est")),
@@ -44,7 +44,7 @@ fmax <- max(aggfast$absdrho.mean)
 fmax10 <- ceiling(log10(fmax))
 ```
 
-```{r tables and figures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
+```{r tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
 fig_nums <- captioner()
 table_nums <- captioner(prefix = "Table")
 
@@ -135,7 +135,7 @@ A simulation was done using the Cartesian product (all possible combinations of)
 \newpage
 
 **`r fig_nums("MLRMSE", display="cite")`.** *Root Mean Square Error for `ML=TRUE` and `ML=FALSE`.*  
-```{r ML RMSE plot, echo=FALSE,fig.width=7, fig.height=5.5}
+```{r MLRMSEplot, echo=FALSE, fig.width=7, fig.height=5.5}
 #ml <- subset(ML, type %in% c("Polychoric", "Polyserial"))
 #ml$rmse <- (ml$est - ml$rho)^2
 
@@ -159,7 +159,7 @@ The RMSE for these two options is so similar that the two lines cannot be distin
 \ 
 
 **`r table_nums("Polychoric", display="cite")`.** *Relative Mean Absolute Deviation between `ML=TRUE` and `ML=FALSE` for Polychoric.*
-```{r ML RMSE table polyc, echo=FALSE}
+```{r MLRMSETablePolyc, echo=FALSE}
 #ml$i <- rep(1:(nrow(ml)/2),each=2)
 #mml <- merge(subset(ml,ML),
 #               subset(ml,!ML, c("i", "est")),
@@ -187,7 +187,7 @@ mg1 <- mg
 \ 
 
 **`r table_nums("Polyserial", display="cite")`.** *Relative Mean Absolute Deviation between `ML=TRUE` and `ML=FALSE` for Polyserial.*
-```{r ML RMSE table polys, echo=FALSE}
+```{r MLRMSETablePolys, echo=FALSE}
 #aggt2_0 <- summaryBy(absd ~ type + n + ML, data=subset(mml, type=="Polyserial"), FUN=mean, na.rm=TRUE)
 #aggt2_0$ML <- NULL
 
@@ -221,7 +221,7 @@ The plot below shows all differences between the `fast=TRUE` and `fast=FALSE run
 \ 
 
 **`r fig_nums("fastMAD", display="cite")`.** *Relative Mean Absolute Differences between `fast=TRUE` and `fast=FALSE`.*  
-```{r fast MAD plot, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r fastMADplot, echo=FALSE,fig.width=7, fig.height=3.5}
 xyplot(absdrho.mean ~ rho|type,
        data=aggfast,
        groups=n,
@@ -247,7 +247,7 @@ The following plot shows the mean computing time (in seconds) versus $n$.
 \ 
 
 **`r fig_nums("speedi", display="cite")`.** *Computation time comparison.*  
-```{r plot speed, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r plotSpeed, echo=FALSE,fig.width=7, fig.height=3.5}
 # speed$class <- ifelse(speed$ML, "ML=T,", "ML=F,")
 # speed$class <- paste0(speed$class, ifelse(speed$fast, "fast=T", "fast=F"))
 # speed$t <- pmax(speed$t, 0.001)

@@ -1,4 +1,4 @@
-## ----packages and data, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
+## ----packagesAndData, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
 require(knitr)
 require(wCorr)
 require(lattice)
@@ -18,7 +18,7 @@ trellis.par.set(list(layout.widths  = list(left.padding = 3, right.padding = 3),
 #load("speed.RData")
 load("../R/sysdata.rda")
 
-## ----setup fast, echo=FALSE, results="hide", message=FALSE, warning=FALSE----
+## ----setupFast, echo=FALSE, results="hide", message=FALSE, warning=FALSE------
 # fast$i <- rep(1:(nrow(fast)/2),each=2)
 # mfast <- merge(subset(fast,fast),
 #                subset(fast,!fast, c("i", "est")),
@@ -30,7 +30,7 @@ load("../R/sysdata.rda")
 fmax <- max(aggfast$absdrho.mean)
 fmax10 <- ceiling(log10(fmax))
 
-## ----tables and figures, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
+## ----tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
 fig_nums <- captioner()
 table_nums <- captioner(prefix = "Table")
 
@@ -40,7 +40,7 @@ Polyserial <- table_nums("Polyserial", "")
 fastMAD <- table_nums("fastMAD", "")
 speedi <- table_nums("speedi", "")
 
-## ----ML RMSE plot, echo=FALSE,fig.width=7, fig.height=5.5----------------
+## ----MLRMSEplot, echo=FALSE, fig.width=7, fig.height=5.5----------------------
 #ml <- subset(ML, type %in% c("Polychoric", "Polyserial"))
 #ml$rmse <- (ml$est - ml$rho)^2
 
@@ -58,7 +58,7 @@ xyplot(rmse.mean ~ rho|type + nt,
        auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----ML RMSE table polyc, echo=FALSE-------------------------------------
+## ----MLRMSETablePolyc, echo=FALSE---------------------------------------------
 #ml$i <- rep(1:(nrow(ml)/2),each=2)
 #mml <- merge(subset(ml,ML),
 #               subset(ml,!ML, c("i", "est")),
@@ -82,7 +82,7 @@ kable(mg)
 mg1 <- mg
 #knitr::asis_output("\\")
 
-## ----ML RMSE table polys, echo=FALSE-------------------------------------
+## ----MLRMSETablePolys, echo=FALSE---------------------------------------------
 #aggt2_0 <- summaryBy(absd ~ type + n + ML, data=subset(mml, type=="Polyserial"), FUN=mean, na.rm=TRUE)
 #aggt2_0$ML <- NULL
 
@@ -100,7 +100,7 @@ mg[,3:6] <- round(mg[,3:5],4)
 kable(mg)
 mg2 <- mg
 
-## ----fast MAD plot, echo=FALSE,fig.width=7, fig.height=3.5---------------
+## ----fastMADplot, echo=FALSE,fig.width=7, fig.height=3.5----------------------
 xyplot(absdrho.mean ~ rho|type,
        data=aggfast,
        groups=n,
@@ -112,7 +112,7 @@ xyplot(absdrho.mean ~ rho|type,
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2))
        )
 
-## ----plot speed, echo=FALSE,fig.width=7, fig.height=3.5------------------
+## ----plotSpeed, echo=FALSE,fig.width=7, fig.height=3.5------------------------
 # speed$class <- ifelse(speed$ML, "ML=T,", "ML=F,")
 # speed$class <- paste0(speed$class, ifelse(speed$fast, "fast=T", "fast=F"))
 # speed$t <- pmax(speed$t, 0.001)

@@ -2,74 +2,74 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 cont <- function(x, y, w) {
-    .Call('wCorr_cont', PACKAGE = 'wCorr', x, y, w)
+    .Call(`_wCorr_cont`, x, y, w)
 }
 
 wrankFast <- function(x, w) {
-    .Call('wCorr_wrankFast', PACKAGE = 'wCorr', x, w)
+    .Call(`_wCorr_wrankFast`, x, w)
 }
 
 fixxFast <- function(x, w) {
-    .Call('wCorr_fixxFast', PACKAGE = 'wCorr', x, w)
+    .Call(`_wCorr_fixxFast`, x, w)
 }
 
 mapThetaFast <- function(v) {
-    .Call('wCorr_mapThetaFast', PACKAGE = 'wCorr', v)
+    .Call(`_wCorr_mapThetaFast`, v)
 }
 
 optFcFast <- function(par, x, w, M, temp3, theta0) {
-    .Call('wCorr_optFcFast', PACKAGE = 'wCorr', par, x, w, M, temp3, theta0)
+    .Call(`_wCorr_optFcFast`, par, x, w, M, temp3, theta0)
 }
 
 optFFast <- function(par, x, w, M, temp3) {
-    .Call('wCorr_optFFast', PACKAGE = 'wCorr', par, x, w, M, temp3)
+    .Call(`_wCorr_optFFast`, par, x, w, M, temp3)
 }
 
 theta <- function(M) {
-    .Call('wCorr_theta', PACKAGE = 'wCorr', M)
+    .Call(`_wCorr_theta`, M)
 }
 
 imapThetaFast2 <- function(theta0) {
-    .Call('wCorr_imapThetaFast2', PACKAGE = 'wCorr', theta0)
+    .Call(`_wCorr_imapThetaFast2`, theta0)
 }
 
 mainF <- function(x, M, w, theta0) {
-    .Call('wCorr_mainF', PACKAGE = 'wCorr', x, M, w, theta0)
+    .Call(`_wCorr_mainF`, x, M, w, theta0)
 }
 
 imapThetaFast <- function(theta0) {
-    .Call('wCorr_imapThetaFast', PACKAGE = 'wCorr', theta0)
+    .Call(`_wCorr_imapThetaFast`, theta0)
 }
 
 fscale_cutsFast <- function(par) {
-    .Call('wCorr_fscale_cutsFast', PACKAGE = 'wCorr', par)
+    .Call(`_wCorr_fscale_cutsFast`, par)
 }
 
 tableFast <- function(x, y, w) {
-    .Call('wCorr_tableFast', PACKAGE = 'wCorr', x, y, w)
+    .Call(`_wCorr_tableFast`, x, y, w)
 }
 
 discord <- function(xytab) {
-    .Call('wCorr_discord', PACKAGE = 'wCorr', xytab)
+    .Call(`_wCorr_discord`, xytab)
 }
 
 lnlFast <- function(xytab, pm) {
-    .Call('wCorr_lnlFast', PACKAGE = 'wCorr', xytab, pm)
+    .Call(`_wCorr_lnlFast`, xytab, pm)
 }
 
 rcpparma_hello_world <- function() {
-    .Call('wCorr_rcpparma_hello_world', PACKAGE = 'wCorr')
+    .Call(`_wCorr_rcpparma_hello_world`)
 }
 
 rcpparma_outerproduct <- function(x) {
-    .Call('wCorr_rcpparma_outerproduct', PACKAGE = 'wCorr', x)
+    .Call(`_wCorr_rcpparma_outerproduct`, x)
 }
 
 rcpparma_innerproduct <- function(x) {
-    .Call('wCorr_rcpparma_innerproduct', PACKAGE = 'wCorr', x)
+    .Call(`_wCorr_rcpparma_innerproduct`, x)
 }
 
 rcpparma_bothproducts <- function(x) {
-    .Call('wCorr_rcpparma_bothproducts', PACKAGE = 'wCorr', x)
+    .Call(`_wCorr_rcpparma_bothproducts`, x)
 }
 

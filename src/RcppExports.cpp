@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // cont
 double cont(arma::vec x, arma::vec y, const arma::vec& w);
-RcppExport SEXP wCorr_cont(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP) {
+RcppExport SEXP _wCorr_cont(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,7 +21,7 @@ END_RCPP
 }
 // wrankFast
 arma::vec wrankFast(arma::vec x, const arma::vec& w);
-RcppExport SEXP wCorr_wrankFast(SEXP xSEXP, SEXP wSEXP) {
+RcppExport SEXP _wCorr_wrankFast(SEXP xSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -33,7 +33,7 @@ END_RCPP
 }
 // fixxFast
 const arma::vec fixxFast(const arma::vec x, const arma::vec w);
-RcppExport SEXP wCorr_fixxFast(SEXP xSEXP, SEXP wSEXP) {
+RcppExport SEXP _wCorr_fixxFast(SEXP xSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -45,7 +45,7 @@ END_RCPP
 }
 // mapThetaFast
 const arma::vec mapThetaFast(const arma::vec& v);
-RcppExport SEXP wCorr_mapThetaFast(SEXP vSEXP) {
+RcppExport SEXP _wCorr_mapThetaFast(SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -56,7 +56,7 @@ END_RCPP
 }
 // optFcFast
 double optFcFast(const arma::vec& par, const arma::vec& x, arma::vec w, const arma::vec& M, double temp3, const arma::vec& theta0);
-RcppExport SEXP wCorr_optFcFast(SEXP parSEXP, SEXP xSEXP, SEXP wSEXP, SEXP MSEXP, SEXP temp3SEXP, SEXP theta0SEXP) {
+RcppExport SEXP _wCorr_optFcFast(SEXP parSEXP, SEXP xSEXP, SEXP wSEXP, SEXP MSEXP, SEXP temp3SEXP, SEXP theta0SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -72,7 +72,7 @@ END_RCPP
 }
 // optFFast
 double optFFast(const arma::vec& par, const arma::vec& x, const arma::vec w, const arma::vec& M, double temp3);
-RcppExport SEXP wCorr_optFFast(SEXP parSEXP, SEXP xSEXP, SEXP wSEXP, SEXP MSEXP, SEXP temp3SEXP) {
+RcppExport SEXP _wCorr_optFFast(SEXP parSEXP, SEXP xSEXP, SEXP wSEXP, SEXP MSEXP, SEXP temp3SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -87,7 +87,7 @@ END_RCPP
 }
 // theta
 const arma::vec theta(const arma::vec& M);
-RcppExport SEXP wCorr_theta(SEXP MSEXP) {
+RcppExport SEXP _wCorr_theta(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -98,7 +98,7 @@ END_RCPP
 }
 // imapThetaFast2
 const arma::vec imapThetaFast2(const arma::vec& theta0);
-RcppExport SEXP wCorr_imapThetaFast2(SEXP theta0SEXP) {
+RcppExport SEXP _wCorr_imapThetaFast2(SEXP theta0SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -109,7 +109,7 @@ END_RCPP
 }
 // mainF
 arma::field<arma::vec> mainF(const arma::vec& x, const arma::vec& M, arma::vec w, const arma::vec& theta0);
-RcppExport SEXP wCorr_mainF(SEXP xSEXP, SEXP MSEXP, SEXP wSEXP, SEXP theta0SEXP) {
+RcppExport SEXP _wCorr_mainF(SEXP xSEXP, SEXP MSEXP, SEXP wSEXP, SEXP theta0SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -123,7 +123,7 @@ END_RCPP
 }
 // imapThetaFast
 const arma::vec imapThetaFast(const arma::vec& theta0);
-RcppExport SEXP wCorr_imapThetaFast(SEXP theta0SEXP) {
+RcppExport SEXP _wCorr_imapThetaFast(SEXP theta0SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -134,7 +134,7 @@ END_RCPP
 }
 // fscale_cutsFast
 const arma::vec fscale_cutsFast(const arma::vec& par);
-RcppExport SEXP wCorr_fscale_cutsFast(SEXP parSEXP) {
+RcppExport SEXP _wCorr_fscale_cutsFast(SEXP parSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -145,7 +145,7 @@ END_RCPP
 }
 // tableFast
 const arma::mat tableFast(const arma::vec& x, const arma::vec& y, const arma::vec& w);
-RcppExport SEXP wCorr_tableFast(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP) {
+RcppExport SEXP _wCorr_tableFast(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -158,7 +158,7 @@ END_RCPP
 }
 // discord
 int discord(const arma::mat& xytab);
-RcppExport SEXP wCorr_discord(SEXP xytabSEXP) {
+RcppExport SEXP _wCorr_discord(SEXP xytabSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -169,7 +169,7 @@ END_RCPP
 }
 // lnlFast
 double lnlFast(const arma::mat& xytab, const arma::mat& pm);
-RcppExport SEXP wCorr_lnlFast(SEXP xytabSEXP, SEXP pmSEXP) {
+RcppExport SEXP _wCorr_lnlFast(SEXP xytabSEXP, SEXP pmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -181,7 +181,7 @@ END_RCPP
 }
 // rcpparma_hello_world
 arma::mat rcpparma_hello_world();
-RcppExport SEXP wCorr_rcpparma_hello_world() {
+RcppExport SEXP _wCorr_rcpparma_hello_world() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -191,7 +191,7 @@ END_RCPP
 }
 // rcpparma_outerproduct
 arma::mat rcpparma_outerproduct(const arma::colvec& x);
-RcppExport SEXP wCorr_rcpparma_outerproduct(SEXP xSEXP) {
+RcppExport SEXP _wCorr_rcpparma_outerproduct(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -202,7 +202,7 @@ END_RCPP
 }
 // rcpparma_innerproduct
 double rcpparma_innerproduct(const arma::colvec& x);
-RcppExport SEXP wCorr_rcpparma_innerproduct(SEXP xSEXP) {
+RcppExport SEXP _wCorr_rcpparma_innerproduct(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -213,7 +213,7 @@ END_RCPP
 }
 // rcpparma_bothproducts
 Rcpp::List rcpparma_bothproducts(const arma::colvec& x);
-RcppExport SEXP wCorr_rcpparma_bothproducts(SEXP xSEXP) {
+RcppExport SEXP _wCorr_rcpparma_bothproducts(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -221,4 +221,31 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(rcpparma_bothproducts(x));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_wCorr_cont", (DL_FUNC) &_wCorr_cont, 3},
+    {"_wCorr_wrankFast", (DL_FUNC) &_wCorr_wrankFast, 2},
+    {"_wCorr_fixxFast", (DL_FUNC) &_wCorr_fixxFast, 2},
+    {"_wCorr_mapThetaFast", (DL_FUNC) &_wCorr_mapThetaFast, 1},
+    {"_wCorr_optFcFast", (DL_FUNC) &_wCorr_optFcFast, 6},
+    {"_wCorr_optFFast", (DL_FUNC) &_wCorr_optFFast, 5},
+    {"_wCorr_theta", (DL_FUNC) &_wCorr_theta, 1},
+    {"_wCorr_imapThetaFast2", (DL_FUNC) &_wCorr_imapThetaFast2, 1},
+    {"_wCorr_mainF", (DL_FUNC) &_wCorr_mainF, 4},
+    {"_wCorr_imapThetaFast", (DL_FUNC) &_wCorr_imapThetaFast, 1},
+    {"_wCorr_fscale_cutsFast", (DL_FUNC) &_wCorr_fscale_cutsFast, 1},
+    {"_wCorr_tableFast", (DL_FUNC) &_wCorr_tableFast, 3},
+    {"_wCorr_discord", (DL_FUNC) &_wCorr_discord, 1},
+    {"_wCorr_lnlFast", (DL_FUNC) &_wCorr_lnlFast, 2},
+    {"_wCorr_rcpparma_hello_world", (DL_FUNC) &_wCorr_rcpparma_hello_world, 0},
+    {"_wCorr_rcpparma_outerproduct", (DL_FUNC) &_wCorr_rcpparma_outerproduct, 1},
+    {"_wCorr_rcpparma_innerproduct", (DL_FUNC) &_wCorr_rcpparma_innerproduct, 1},
+    {"_wCorr_rcpparma_bothproducts", (DL_FUNC) &_wCorr_rcpparma_bothproducts, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_wCorr(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

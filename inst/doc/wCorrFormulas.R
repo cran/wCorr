@@ -1,6 +1,7 @@
-## ----packages and data, echo=FALSE, results="hide", message=FALSE, warning=FALSE----
+## ----packagesAndData, echo=FALSE, results="hide", message=FALSE, warning=FALSE----
 require(wCorr)
 require(lattice)
+require(doBy)
 require(captioner)
 # set layout so a figure label appears to go with the figure
 trellis.device()
@@ -22,7 +23,7 @@ load("../R/sysdata.rda")
 
 
 
-## ----tables and figures, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
+## ----tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
 fig_nums <- captioner()
 table_nums <- captioner(prefix = "Table")
 
@@ -34,7 +35,7 @@ speedi <- table_nums("speedi", "")
 rmseVsRho3 <- table_nums("rmseVsRho2", "")
 rmseVsN <- table_nums("rmseVsN2", "")
 
-## ----theta,echo=FALSE,results="hide",fig.width=7, fig.height=3-----------
+## ----theta,echo=FALSE,results="hide",fig.width=7, fig.height=3----------------
 x <- seq(-3,3,by=0.01) 
 y <- dnorm(x)
 par0 <- par(no.readonly=TRUE)
@@ -54,7 +55,7 @@ par(mgp=c(3,1,0))
 title(xlab="Y")
 par(par0)
 
-## ----bias Versus rho, echo=FALSE,fig.width=7, fig.height=5---------------
+## ----biasVersusrho, echo=FALSE,fig.width=7, fig.height=5----------------------
 #bias$rmse <- sqrt( (bias$est - bias$rho)^2 )
 #bias$bias <- bias$est - bias$rho
 #aggbias <- summaryBy(bias + rmse  ~ n + rho + type, data=bias, FUN=mean, na.rm=TRUE)
@@ -69,7 +70,7 @@ xyplot(bias.mean ~ rho|type,
       auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
       par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----rmse Versus rho, echo=FALSE,fig.width=7, fig.height=3.5-------------
+## ----rmseVersusrho, echo=FALSE,fig.width=7, fig.height=3.5--------------------
 xyplot(rmse.mean ~ rho|type,
       data=aggbias,
       groups=n,
@@ -80,7 +81,7 @@ xyplot(rmse.mean ~ rho|type,
       auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
       par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----rmse Versus n, echo=FALSE,fig.width=7, fig.height=3.5---------------
+## ----rmseVersusN, echo=FALSE,fig.width=7, fig.height=3.5----------------------
 #aggbias2 <- summaryBy(rmse  ~ n+type, data=bias, FUN=mean, na.rm=TRUE)
 xyplot(rmse.mean ~ n,
      groups=type,
@@ -92,7 +93,7 @@ xyplot(rmse.mean ~ n,
       auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
       par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----time Versus n, echo=FALSE,fig.width=7, fig.height=4-----------------
+## ----timeVersusN, echo=FALSE,fig.width=7, fig.height=4------------------------
 # agg <- summaryBy(t ~ n + type, data=ntime, FUN=mean, na.rm=TRUE)
 # agg$t.mean <- ifelse(agg$t.mean==0, 0.001,agg$t.mean)
 
@@ -106,7 +107,7 @@ xyplot(t.mean ~ n,
        auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----wgt Versus rho plot, echo=FALSE,fig.width=7, fig.height=5.5---------
+## ----wgtVersusRhoPlot, echo=FALSE,fig.width=7, fig.height=5.5-----------------
 # wgt <- wgtvrho
 # wgt$absdrho <- abs(wgt$est - wgt$rho)
 # 
@@ -123,7 +124,7 @@ xyplot(absdrho.mean ~ rho|type,
        auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----wgt v n plot, echo=FALSE,fig.width=7, fig.height=5.5----------------
+## ----wgtVsNPlot, echo=FALSE,fig.width=7, fig.height=5.5-----------------------
 # wgtvn <- wgtvn[wgtvn$type!= "Spearman",]
 # 
 # wgt <- rbind(wgtvn, spear)
