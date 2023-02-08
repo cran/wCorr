@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // cont
 double cont(arma::vec x, arma::vec y, const arma::vec& w);
 RcppExport SEXP _wCorr_cont(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP) {

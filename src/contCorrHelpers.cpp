@@ -1,3 +1,4 @@
+#define STRICT_R_HEADERS
 #include <RcppArmadillo.h>
 #include <Rmath.h>
 #include <Rcpp.h>
@@ -32,14 +33,12 @@ arma::vec wrankFast(arma::vec x, const arma::vec& w) {
   double t2 = 0;
   double n = 0 ;
   while(i < size-1) {
-    
     t2 = t2 + wp[i];
     n = n + 1;
     if(xp[i+1] != xp[i]) {
-      double rnki = t1 + (n+1)/(2*n)*t2;
+      double rnki = t1 + 0.5 + t2/2;
       for(int ii =0; ii < n; ii++) {
         rnk[i-ii] = rnki;
-        
       }
       t1 = t1 + t2; 
       t2 = 0;
@@ -49,23 +48,10 @@ arma::vec wrankFast(arma::vec x, const arma::vec& w) {
   }
   n = n + 1;
   t2 = t2 + wp[i];
-  double rnki = t1 + (n+1)/(2*n)*t2; 
+  double rnki = t1 + 0.5 + t2/2; 
   for(int ii = 0; ii < n; ii++) {
       rnk[i-ii] = rnki;
-    }
-    rnk = rnk.elem(rord);
+  }
+  rnk = rnk.elem(rord);
   return(rnk);
 }
-
-// arma::vec wrankFastOld(arma::vec x, const arma::vec& w) {
-//   int size = x.size();
-//   arma::vec ranks(size);
-//   for(int i =0; i < size; i++ ) {
-//     const arma::uvec ind = arma::find(x<x[i]);
-//     double t1 = arma::sum(w.elem(ind));
-//     const arma::uvec ind1 = arma::find(x==x[i]);
-//     arma::vec t2 = w.elem(ind1);
-//     ranks[i] = t1 + arma::mean(t2) + (arma::sum(t2) - arma::mean(t2))/2;
-//   }
-//   return(ranks);
-// }

@@ -1,3 +1,4 @@
+#define STRICT_R_HEADERS
 #include <RcppArmadillo.h>
 #include <Rmath.h>
 // [[Rcpp::depends("RcppArmadillo")]]

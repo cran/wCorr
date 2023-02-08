@@ -1,8 +1,8 @@
 Package: wCorr
 Type: Package
 Title: Weighted Correlations
-Version: 1.9.5
-Date: 2021-05-20
+Version: 1.9.6
+Date: 2023-01-30
 Authors@R: c(person("Emmanuel", "Sikali", role="pdr", email = "Emmanuel.Sikali@ed.gov"),
              person("Paul", "Bailey", role=c("aut", "cre"), email="pbailey@air.org"),
              person("Ahmad", "Emad", role="aut"),
@@ -18,15 +18,16 @@ Note: This publication was prepared for NCES under Contract No.
         does not imply endorsement by the U.S. Government.
 Imports: minqa, mnormt, Rcpp, stats
 Depends: R (>= 3.0.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Suggests: knitr, rmarkdown, lattice, captioner, doBy
 VignetteBuilder: knitr
 LinkingTo: Rcpp, RcppArmadillo
+Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2021-05-20 19:52:05 UTC; pbailey
+Packaged: 2023-02-03 15:53:36 UTC; pbailey
 Author: Emmanuel Sikali [pdr],
   Paul Bailey [aut, cre],
   Ahmad Emad [aut],
   Eric Buehler [ctb]
 Repository: CRAN
-Date/Publication: 2021-05-20 21:00:02 UTC
+Date/Publication: 2023-02-08 08:10:02 UTC

@@ -1,37 +1,8 @@
-
-# # example:
-# n <- 10 # number of units to rank
-# n2 <- 4 # the first n2 units are tied, demonstrating how ties are handled
-# x <- rnorm(n) # make random data
-# if(n2>1) { # implement replication of first n2 units
-#   for(i in 2:n2) {
-#     x[i] <- x[1]
-#   }
-# }
-# rk <- rank(x, ties.method="average") # traditional rank with average
-# rk2 <- wrank(x)
-# all.equal(rk, rk2) # the ranks are equal when weights are all 1
-# w <- rchisq(n, df=1) # make random ranks with strictly positive values
-# rk3 <- wrank(x, w)
-# cor(rk, rk3, method="spearman") # ordering is preserved
-# cbind(x, rk, rk2, rk3, w)
-
-
-
-# # example 2:
-
-#x <- sample(runif(4), 8, replace=TRUE)
-#w <- sample(runif(4), 8, replace=TRUE)
-#cbind(x,w, wCorr:::wrank(x,w),wrank2(x,w), wrank2(x,w)- wCorr:::wrank(x,w))
-#plot(wrank2(x,w), wCorr:::wrank(x,w))
-#abline(0,1)
-#all.equal(wrank2(x,w), wCorr:::wrank(x,w))
-# 
-#n <- 40000
-#system.time(wrank2(1:n,rep(1,n)))
-#system.time(wCorr:::wrank(1:n,rep(1,n)))
-
-
+# weighted ranks
+# @param x the vector of values to rank
+# @param w the (survey) weights for x
+# returns vector of ranks
+# not exported
 wrank <- function(x, w=rep(1,length(x))) {
   # sort by x so we can just traverse once
   ord <- order(x)
@@ -46,10 +17,10 @@ wrank <- function(x, w=rep(1,length(x))) {
   n <- 0 # number of tied elements
   while(i < length(x)) {
     t2 <- t2 + wp[i] # tied weight increases by this unit
-    n <- n + 1 # one additional tied unit
+    n <- n + 1
     if(xp[i+1] != xp[i]) { # the next one is not a tie
       # find the rank of all tied elements
-      rnki <- t1 + (n+1)/(2*n)*t2
+      rnki <- t1 + (1 + (t2-1)/2)
       # push that rank to all tied units
       for(ii in 1:n) {
         rnk[i-ii+1] <- rnki
@@ -57,14 +28,13 @@ wrank <- function(x, w=rep(1,length(x))) {
       # reset for next itteration
       t1 <- t1 + t2 # new total weight for lower values
       t2 <- 0 # new tied weight starts at 0
-      n <- 0 # no tied units
+      n <- 0
     }
     i <- i + 1
   }
   # final row
-  n <- n + 1 # add final tie
   t2 <- t2 + wp[i] # add final weight to tied weight
-  rnki <- t1 + (n+1)/(2*n)*t2 # final rank
+  rnki <- t1 + (1 + (t2-1)/2) # final rank
   # push that rank to all final tied units
   for(ii in 1:n) {
     rnk[i-ii+1] <- rnki
