@@ -7,7 +7,7 @@ contCorrFast <- function(x,y,w, method=c("Pearson", "Spearman")) {
   }
     if(!is.numeric(w)) { 
     w <- as.numeric(w)
-    }
+  }
   if(tolower(method[[1]])=="spearman") {
     x <- as.vector(wrankFast(x,w))
     y <- as.vector(wrankFast(y,w))

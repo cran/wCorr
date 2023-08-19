@@ -4,10 +4,8 @@ bias <- function(workingDir) {
   n <- 0
   
   grid <- expand.grid(ML=FALSE,
-                      #iter=1:20000,
                       iter=1:2,
                       n = c(10,100,1000),
-                      #rho = c(-0.99,seq(-0.95,0.95,by=0.05), 0.99),
                       rho = c(-0.99,seq(-0.95,0.95,by=0.2), 0.99),
                       fast=TRUE)
   grid$reset <- TRUE
@@ -299,6 +297,7 @@ spearmanSpeed <- function(workingDir) {
   
   save(aggWgtvn, file="aggWgtvn.RData")
 }
+
 wgtvrho <- function(workingDir) {
   setwd(workingDir)
   grid <- expand.grid(usew=c(FALSE,TRUE),
@@ -318,7 +317,6 @@ wgtvrho <- function(workingDir) {
   aggWgtvrho$weight <- ifelse(aggWgtvrho$usew, "Weighted", "Unweighted")
   save(aggWgtvrho, file="aggWgtvrho.RData")
 }
-
 
 wgtvn <- function(workingDir) {
   setwd(workingDir)

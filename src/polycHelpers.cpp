@@ -152,16 +152,3 @@ double lnlFast(const arma::mat& xytab, const arma::mat& pm) {
 
   return sum;
 }
-
-// double bNormaL(double prob,  arma::vec& lower,  arma::vec& upper, const arma::vec& mean, const arma::mat& S) {
-//   int nu = 0;
-//   const arma::vec sd = arma::sqrt(S.diag());
-//   double rho = S(0,1)/pow(S(0,0)*S(1,1), 0.5);
-//   lower = (lower - mean)/sd;
-//   upper = (upper-mean)/sd;
-//   arma::vec infin(2);
-//   infin.fill(2);
-//   const arma::vec a = Rcpp::.Fortran("smvbvt", prob, nu, lower, upper, infin, rho,
-//                 PACKAGE = "mnormt");
-//   return a(0);
-// }

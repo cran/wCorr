@@ -29,5 +29,3 @@ polysFast <- function(x, M, w, ML=FALSE) {
     return( tanh(opt$minimum) )
   }
 }
-
-

@@ -11,44 +11,66 @@ vignette: |
   \usepackage{amssymb}
 ---
 
-```{r packagesAndData, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
+```{r packages and data, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
 require(wCorr)
+if(!requireNamespace("doBy")) {
+  stop("Cannot build vignette without knitr package")
+}
+if(!requireNamespace("lattice")) {
+  stop("Cannot build vignette without lattice package")
+}
 require(lattice)
 require(doBy)
-require(captioner)
 # set layout so a figure label appears to go with the figure
 trellis.device()
 trellis.par.set(list(layout.widths  = list(left.padding = 3, right.padding = 3),
                      layout.heights = list(top.padding = -1, bottom.padding = 3)))
-#load("..//vignettes/sim/ntime.RData")
-##load("..//vignettes/sim/bias.RData")
-#load("..//vignettes/sim/aggbias.RData")
-#load("..//vignettes/sim/wgtvrho.RData")
-#load("..//vignettes/sim/wgtvn.RData")
-#load("..//vignettes/sim/spear.RData")
-
-# load("ntime.RData")
-# load("aggbias.RData")
-# load("wgtvrho.RData")
-# load("wgtvn.RData")
-# load("spear.RData")
 load("../R/sysdata.rda")
-
-
 ```
 
 
-```{r tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
-fig_nums <- captioner()
-table_nums <- captioner(prefix = "Table")
+```{r tables and figures, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
+# replicate captioner functionality we used to use
+cp <- function(prefix="Figure") {
+  pf <- prefix
+  cw <- data.frame(name="__XX__UNUSED", print="Table 99")
+  i <- 1
+  function(x, display=c("save", "cite", "cw")) {
+    if(display[1] %in% "cw") {
+      return(cw)
+    }
+    display <- match.arg(display)
+    if(is.null(x)) {
+      stop("must define argument x")
+    }
+    if(display %in% "cite" && !x %in% cw$name) {
+      display <- "save"
+    }
+    if(display %in% "cite") {
+      return(cw$print[cw$name == x])
+    }
+    if(display %in% "save") {
+      if(x %in% cw$name) {
+        stop("Label:",dQuote(x)," already in use.")
+      }  
+      cw[i, "name"] <<- x
+      res <- paste(pf, i, ":")
+      cw[i, "print"] <<- res
+      i <<- i + 1
+      return(res)
+    }
+  }
+}
+fig_nums <- cp()
+table_nums <- cp(prefix = "Table")
 
-theta <- fig_nums("theta", "")
-biasVsRho <- table_nums("biasVsRho", "")
-rmseVsRho <- table_nums("rmseVsRho", "")
-rmseVsRho2 <- table_nums("rmseVsN", "")
-speedi <- table_nums("speedi", "")
-rmseVsRho3 <- table_nums("rmseVsRho2", "")
-rmseVsN <- table_nums("rmseVsN2", "")
+theta <- fig_nums("theta")
+biasVsRho <- fig_nums("biasVsRho")
+rmseVsRho <- table_nums("rmseVsRho")
+rmseVsRho2 <- table_nums("rmseVsN")
+speedi <- table_nums("speedi")
+rmseVsRho3 <- table_nums("rmseVsRho2")
+rmseVsN <- table_nums("rmseVsN2")
 ```
 
 The wCorr package can be used to calculate Pearson, Spearman, polyserial, and polychoric correlations, in weighted or unweighted form.^[The estimation procedure used by the wCorr package for the polyserial is based on the likelihood function in  Cox, N. R. (1974), "Estimation of the Correlation between a Continuous and a Discrete Variable." *Biometrics*, **30** (1), pp 171-178. The likelihood function for polychoric is from Olsson, U. (1979) "Maximum Likelihood Estimation of the Polychoric Correlation Coefficient." *Psyhometrika*, **44** (4), pp 443-460. The likelihood used for Pearson and Spearman is written down in many places. One is the "correlate" function in Stata Corp, Stata Statistical Software: Release 8. College Station, TX: Stata Corp LP, 2003.] The package implements the tetrachoric correlation as a specific case of the polychoric correlation and biserial correlation as a specific case of the polyserial correlation. When weights are used, the correlation coefficients are calculated with so called sample weights or inverse probability weights.^[Sample weights are comparable to `pweight` in Stata.]
@@ -130,6 +152,15 @@ $$m_i= \begin{cases} 1 \quad \mathrm{if}  \theta_2 < y_i < \theta_3 \\ 2 \quad \
 where $\theta$ indicates the cut points used to discretize ***Y*** into ***M***, and $t$ is the number of bins. For notational convenience, $\theta_2 \equiv -\infty$ and $\theta_{t+2} \equiv \infty$.^[The indexing is somewhat odd to be consistent with Cox (1974). Nevertheless, this treatment does not use the Cox definition of $\theta_0$, $\theta_1$ or $\theta_2$ which are either not estimated (as is the case for $\theta_0$, and $\theta_1$) or are reappropriated (as is the case for $\theta_2$). Cox calls the correlation coefficient $\theta_2$ while this document uses $\rho$ and uses $\theta_2$ to store $-\infty$ as a convenience so that the vector $\boldsymbol{\theta}$ includes the (infinite) bounds as well as the interior points.]
 
 To give a concrete example, the following figure shows the density of ***Y*** when the cuts points are, for this example, $\theta=\left(-\infty,-2,-0.5,1.6,\infty\right)$. In this example, any value of $-2 < y_i < -0.5$ would have $m_i=2$.
+
+
+
+**`r fig_nums("theta", display="cite")`.** *Density of Y for cutpoints $\theta = (-\infty, -2, -0.5, 1.6, \infty$).*    
+```{r theta2,echo=FALSE,results="hide",fig.width=7, fig.height=3}
+#hi
+```
+hi
+
 
 **`r fig_nums("theta", display="cite")`.** *Density of Y for cutpoints $\theta = (-\infty, -2, -0.5, 1.6, \infty$).*    
 ```{r theta,echo=FALSE,results="hide",fig.width=7, fig.height=3}
@@ -292,7 +323,7 @@ xyplot(rmse.mean ~ rho|type,
 The plot also shows that the RMSE is less than 0.1 for all methods when $n>100$.
 
 **`r fig_nums("rmseVsN", display="cite")`.** *Root Mean Square Error Versus sample size for Unweighted Correlations.*   
-```{r rmseVersusN, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r rmse Versus n, echo=FALSE,fig.width=7, fig.height=3.5}
 #aggbias2 <- summaryBy(rmse  ~ n+type, data=bias, FUN=mean, na.rm=TRUE)
 xyplot(rmse.mean ~ n,
      groups=type,
@@ -310,7 +341,7 @@ xyplot(rmse.mean ~ n,
 `r fig_nums("speedi", display="cite")` shows the mean time (in seconds) to compute a single correlation coefficient as a function of $\rho$ by $n$ size. The plot shows linearly rising computation times with slopes of about one. This is consistent with a linear computation cost. Using Big O notation, the computation cost is, in the range shown, O($n$). The slope of the Spearman is slightly faster and the algorithm has a O($n \mathrm{lg}(n)$) sort involved, so this is, again, expected.
 
 **`r fig_nums("speedi", display="cite")`.** *Computation time.*    
-```{r timeVersusN, echo=FALSE,fig.width=7, fig.height=4}
+```{r time Versus n, echo=FALSE,fig.width=7, fig.height=4}
 # agg <- summaryBy(t ~ n + type, data=ntime, FUN=mean, na.rm=TRUE)
 # agg$t.mean <- ifelse(agg$t.mean==0, 0.001,agg$t.mean)
 
@@ -348,7 +379,7 @@ as a function of $\rho$ and was run for $n=100$ and  $\rho \in \left( -0.99, -0.
 The following plot shows the MAD for the weighted and unweighted results as a function of $\rho$ when $n=100$. This shows that for values of $\rho$ near zero, under our simulation assumptions (for all but the Spearman correlation) the weighted correlation performs better than (that is, has lower MAD than) the unweighted correlation for all correlation coefficients. Over the entire range, the difference between the two is never such that the unweighted has a lower MAD. Thus, under the simulated conditions at least, the weighted correlation has lower or approximately equal MAD for every value of the true correlation coefficient ($\rho$).
 
 **`r fig_nums("rmseVsRho2", display="cite")`.** *Mean Absolute Deviation Versus $\rho$ (Weighted).*   
-```{r wgtVersusRhoPlot, echo=FALSE,fig.width=7, fig.height=5.5}
+```{r wgt Versus rho plot, echo=FALSE,fig.width=7, fig.height=5.5}
 # wgt <- wgtvrho
 # wgt$absdrho <- abs(wgt$est - wgt$rho)
 # 
@@ -376,7 +407,7 @@ Thus, the results in `r fig_nums("rmseVsN2", display="cite")` show that, when co
 In all cases the RMSE is lower for the weighted than the unweighted. Again, the fact that the simulations show that the unweighted correlation coefficient is not consistent does not imply that it will always be that way--only that this is possible for these coefficients to not be consistent.
 
 **`r fig_nums("rmseVsN2", display="cite")`.** *Root Mean Square Error Versus $\rho$ (Polyserial, Pearson, Polychoric panels) or Population Spearman correlation coefficient (Spearman panel) for Weighted Correlations*   
-```{r wgtVsNPlot, echo=FALSE,fig.width=7, fig.height=5.5}
+```{r wgt v n plot, echo=FALSE,fig.width=7, fig.height=5.5}
 # wgtvn <- wgtvn[wgtvn$type!= "Spearman",]
 # 
 # wgt <- rbind(wgtvn, spear)

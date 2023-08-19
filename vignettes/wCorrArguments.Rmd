@@ -10,28 +10,56 @@ vignette: >
 ---
 
 
-```{r packagesAndData, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
+```{r packages and data, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
+if(!requireNamespace("knitr")) {
+  stop("Cannot build vignette without knitr package")
+}
+if(!requireNamespace("lattice")) {
+  stop("Cannot build vignette without lattice package")
+}
 require(knitr)
 require(wCorr)
 require(lattice)
-require(captioner)
 
 # set layout so a figure label appears to go with the figure
 trellis.device()
 trellis.par.set(list(layout.widths  = list(left.padding = 3, right.padding = 3),
                      layout.heights = list(top.padding = -1, bottom.padding = 3))) 
-##load("../vignettes/sim/ML.RData")
-#load("../vignettes/sim/aggML.RData")
-#load("../vignettes/sim/fast.RData")
-#load("../vignettes/sim/speed.RData")
-
-#load("aggML.RData")
-#load("fast.RData")
-#load("speed.RData")
 load("../R/sysdata.rda")
 ```
 
-```{r setupFast, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
+```{r setup fast, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
+# replicate captioner functionality we used to use
+cp <- function(prefix="Figure") {
+  pf <- prefix
+  cw <- data.frame(name="__XX__UNUSED", print="Table 99")
+  i <- 1
+  function(x, display=c("save", "cite", "cw")) {
+    if(display[1] %in% "cw") {
+      return(cw)
+    }
+    display <- match.arg(display)
+    if(is.null(x)) {
+      stop("must define argument x")
+    }
+    if(display %in% "cite" && !x %in% cw$name) {
+      display <- "save"
+    }
+    if(display %in% "cite") {
+      return(cw$print[cw$name == x])
+    }
+    if(display %in% "save") {
+      if(x %in% cw$name) {
+        stop("Label:",dQuote(x)," already in use.")
+      }  
+      cw[i, "name"] <<- x
+      res <- paste(pf, i, ":")
+      cw[i, "print"] <<- res
+      i <<- i + 1
+      return(res)
+    }
+  }
+}
 # fast$i <- rep(1:(nrow(fast)/2),each=2)
 # mfast <- merge(subset(fast,fast),
 #                subset(fast,!fast, c("i", "est")),
@@ -44,15 +72,15 @@ fmax <- max(aggfast$absdrho.mean)
 fmax10 <- ceiling(log10(fmax))
 ```
 
-```{r tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
-fig_nums <- captioner()
-table_nums <- captioner(prefix = "Table")
+```{r tables and figures, echo=FALSE, results="hide", message=FALSE,warning=FALSE}
+fig_nums <- cp()
+table_nums <- cp(prefix = "Table")
 
-MLRMSE <- fig_nums("MLRMSE", "")
-Polychoric <- table_nums("Polychoric", "")
-Polyserial <- table_nums("Polyserial", "")
-fastMAD <- table_nums("fastMAD", "")
-speedi <- table_nums("speedi", "")
+MLRMSE <- fig_nums("MLRMSE")
+Polychoric <- table_nums("Polychoric")
+Polyserial <- table_nums("Polyserial")
+fastMAD <- table_nums("fastMAD")
+speedi <- table_nums("speedi")
 ```
 
 The wCorr package can be used to calculate Pearson, Spearman, polyserial, and polychoric correlations, in weighted or unweighted form.^[The estimation procedure used by the wCorr package for the polyserial is based on the likelihood function in by Cox, N. R. (1974), "Estimation of the Correlation between a Continuous and a Discrete Variable." *Biometrics*, **30** (1), pp 171-178. The likelihood function for polychoric is from Olsson, U. (1979) "Maximum Likelihood Estimation of the Polychoric Correlation Coefficient." *Psyhometrika*, **44** (4), pp 443-460. The likelihood used for Pearson and Spearman is written down many places. One is the "correlate" function in Stata Corp, Stata Statistical Software: Release 8. College Station, TX: Stata Corp LP, 2003.] The package implements the tetrachoric correlation as a specific case of the polychoric correlation and biserial correlation as a specific case of the polyserial correlation. When weights are used, the correlation coefficients are calculated with so called sample weights or inverse probability weights.^[Sample weights are comparable to `pweight` in Stata.]
@@ -135,7 +163,7 @@ A simulation was done using the Cartesian product (all possible combinations of)
 \newpage
 
 **`r fig_nums("MLRMSE", display="cite")`.** *Root Mean Square Error for `ML=TRUE` and `ML=FALSE`.*  
-```{r MLRMSEplot, echo=FALSE, fig.width=7, fig.height=5.5}
+```{r MLRMSEplot, echo=FALSE,fig.width=7, fig.height=5.5}
 #ml <- subset(ML, type %in% c("Polychoric", "Polyserial"))
 #ml$rmse <- (ml$est - ml$rho)^2
 
@@ -159,7 +187,7 @@ The RMSE for these two options is so similar that the two lines cannot be distin
 \ 
 
 **`r table_nums("Polychoric", display="cite")`.** *Relative Mean Absolute Deviation between `ML=TRUE` and `ML=FALSE` for Polychoric.*
-```{r MLRMSETablePolyc, echo=FALSE}
+```{r ML RMSE table polyc, echo=FALSE}
 #ml$i <- rep(1:(nrow(ml)/2),each=2)
 #mml <- merge(subset(ml,ML),
 #               subset(ml,!ML, c("i", "est")),
@@ -187,7 +215,7 @@ mg1 <- mg
 \ 
 
 **`r table_nums("Polyserial", display="cite")`.** *Relative Mean Absolute Deviation between `ML=TRUE` and `ML=FALSE` for Polyserial.*
-```{r MLRMSETablePolys, echo=FALSE}
+```{r ML RMSE table polys, echo=FALSE}
 #aggt2_0 <- summaryBy(absd ~ type + n + ML, data=subset(mml, type=="Polyserial"), FUN=mean, na.rm=TRUE)
 #aggt2_0$ML <- NULL
 
@@ -221,7 +249,7 @@ The plot below shows all differences between the `fast=TRUE` and `fast=FALSE run
 \ 
 
 **`r fig_nums("fastMAD", display="cite")`.** *Relative Mean Absolute Differences between `fast=TRUE` and `fast=FALSE`.*  
-```{r fastMADplot, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r fast MAD plot, echo=FALSE,fig.width=7, fig.height=3.5}
 xyplot(absdrho.mean ~ rho|type,
        data=aggfast,
        groups=n,
@@ -247,7 +275,7 @@ The following plot shows the mean computing time (in seconds) versus $n$.
 \ 
 
 **`r fig_nums("speedi", display="cite")`.** *Computation time comparison.*  
-```{r plotSpeed, echo=FALSE,fig.width=7, fig.height=3.5}
+```{r plot speed, echo=FALSE,fig.width=7, fig.height=3.5}
 # speed$class <- ifelse(speed$ML, "ML=T,", "ML=F,")
 # speed$class <- paste0(speed$class, ifelse(speed$fast, "fast=T", "fast=F"))
 # speed$t <- pmax(speed$t, 0.001)

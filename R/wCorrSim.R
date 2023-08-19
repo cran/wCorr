@@ -240,7 +240,3 @@ spearmanSim <- function(n, rho, ML=FALSE, fast=TRUE, reset=TRUE, usew=TRUE, outs
                       type=rep(c("Spearman"),each=nrow(df)))
   dfout
 }
-
-
-
-

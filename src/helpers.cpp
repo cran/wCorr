@@ -128,4 +128,3 @@ arma::field<arma::vec> mainF(const arma::vec& x, const arma::vec& M, arma::vec  
     return F;
 
 }
-

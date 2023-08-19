@@ -1,24 +1,52 @@
-## ----packagesAndData, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
+## ----packages and data, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
+if(!requireNamespace("knitr")) {
+  stop("Cannot build vignette without knitr package")
+}
+if(!requireNamespace("lattice")) {
+  stop("Cannot build vignette without lattice package")
+}
 require(knitr)
 require(wCorr)
 require(lattice)
-require(captioner)
 
 # set layout so a figure label appears to go with the figure
 trellis.device()
 trellis.par.set(list(layout.widths  = list(left.padding = 3, right.padding = 3),
                      layout.heights = list(top.padding = -1, bottom.padding = 3))) 
-##load("../vignettes/sim/ML.RData")
-#load("../vignettes/sim/aggML.RData")
-#load("../vignettes/sim/fast.RData")
-#load("../vignettes/sim/speed.RData")
-
-#load("aggML.RData")
-#load("fast.RData")
-#load("speed.RData")
 load("../R/sysdata.rda")
 
-## ----setupFast, echo=FALSE, results="hide", message=FALSE, warning=FALSE------
+## ----setup fast, echo=FALSE, results="hide", message=FALSE, warning=FALSE-----
+# replicate captioner functionality we used to use
+cp <- function(prefix="Figure") {
+  pf <- prefix
+  cw <- data.frame(name="__XX__UNUSED", print="Table 99")
+  i <- 1
+  function(x, display=c("save", "cite", "cw")) {
+    if(display[1] %in% "cw") {
+      return(cw)
+    }
+    display <- match.arg(display)
+    if(is.null(x)) {
+      stop("must define argument x")
+    }
+    if(display %in% "cite" && !x %in% cw$name) {
+      display <- "save"
+    }
+    if(display %in% "cite") {
+      return(cw$print[cw$name == x])
+    }
+    if(display %in% "save") {
+      if(x %in% cw$name) {
+        stop("Label:",dQuote(x)," already in use.")
+      }  
+      cw[i, "name"] <<- x
+      res <- paste(pf, i, ":")
+      cw[i, "print"] <<- res
+      i <<- i + 1
+      return(res)
+    }
+  }
+}
 # fast$i <- rep(1:(nrow(fast)/2),each=2)
 # mfast <- merge(subset(fast,fast),
 #                subset(fast,!fast, c("i", "est")),
@@ -30,17 +58,17 @@ load("../R/sysdata.rda")
 fmax <- max(aggfast$absdrho.mean)
 fmax10 <- ceiling(log10(fmax))
 
-## ----tablesAndFigures, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
-fig_nums <- captioner()
-table_nums <- captioner(prefix = "Table")
+## ----tables and figures, echo=FALSE, results="hide", message=FALSE,warning=FALSE----
+fig_nums <- cp()
+table_nums <- cp(prefix = "Table")
 
-MLRMSE <- fig_nums("MLRMSE", "")
-Polychoric <- table_nums("Polychoric", "")
-Polyserial <- table_nums("Polyserial", "")
-fastMAD <- table_nums("fastMAD", "")
-speedi <- table_nums("speedi", "")
+MLRMSE <- fig_nums("MLRMSE")
+Polychoric <- table_nums("Polychoric")
+Polyserial <- table_nums("Polyserial")
+fastMAD <- table_nums("fastMAD")
+speedi <- table_nums("speedi")
 
-## ----MLRMSEplot, echo=FALSE, fig.width=7, fig.height=5.5----------------------
+## ----MLRMSEplot, echo=FALSE,fig.width=7, fig.height=5.5-----------------------
 #ml <- subset(ML, type %in% c("Polychoric", "Polyserial"))
 #ml$rmse <- (ml$est - ml$rho)^2
 
@@ -58,7 +86,7 @@ xyplot(rmse.mean ~ rho|type + nt,
        auto.key=list(lines=TRUE, points=FALSE, space="right", cex=0.7),
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2)))
 
-## ----MLRMSETablePolyc, echo=FALSE---------------------------------------------
+## ----ML RMSE table polyc, echo=FALSE------------------------------------------
 #ml$i <- rep(1:(nrow(ml)/2),each=2)
 #mml <- merge(subset(ml,ML),
 #               subset(ml,!ML, c("i", "est")),
@@ -82,7 +110,7 @@ kable(mg)
 mg1 <- mg
 #knitr::asis_output("\\")
 
-## ----MLRMSETablePolys, echo=FALSE---------------------------------------------
+## ----ML RMSE table polys, echo=FALSE------------------------------------------
 #aggt2_0 <- summaryBy(absd ~ type + n + ML, data=subset(mml, type=="Polyserial"), FUN=mean, na.rm=TRUE)
 #aggt2_0$ML <- NULL
 
@@ -100,7 +128,7 @@ mg[,3:6] <- round(mg[,3:5],4)
 kable(mg)
 mg2 <- mg
 
-## ----fastMADplot, echo=FALSE,fig.width=7, fig.height=3.5----------------------
+## ----fast MAD plot, echo=FALSE,fig.width=7, fig.height=3.5--------------------
 xyplot(absdrho.mean ~ rho|type,
        data=aggfast,
        groups=n,
@@ -112,7 +140,7 @@ xyplot(absdrho.mean ~ rho|type,
        par.settings=list(superpose.line=list(lwd=2), plot.line=list(lwd=2))
        )
 
-## ----plotSpeed, echo=FALSE,fig.width=7, fig.height=3.5------------------------
+## ----plot speed, echo=FALSE,fig.width=7, fig.height=3.5-----------------------
 # speed$class <- ifelse(speed$ML, "ML=T,", "ML=F,")
 # speed$class <- paste0(speed$class, ifelse(speed$fast, "fast=T", "fast=F"))
 # speed$t <- pmax(speed$t, 0.001)

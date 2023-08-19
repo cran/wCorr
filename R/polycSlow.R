@@ -16,10 +16,6 @@ polycSlow <- function(x,y,w,ML=FALSE) {
                           upper=c(cc[c+1], rc[r+1]),
                           mean=c(0,0),
                           S=matrix(c(1,corr,corr,1), nrow=2, ncol=2, byrow=TRUE))
-              #pmvnorm(lower=c(cc[c], rc[r]),
-              #        upper=c(cc[c+1], rc[r+1]),
-              #        mean=c(0,0),
-              #        corr=matrix(c(1,corr,corr,1), nrow=2, ncol=2, byrow=TRUE))
           })
     })
     suppressWarnings(lpm <- log(pm))
@@ -113,34 +109,24 @@ polycSlow <- function(x,y,w,ML=FALSE) {
     }
   }
   if(!foundDiscord){
-    #print(xytab)
     return(1)
   }
   if(!foundConcord) {
-    #print(xytab)
     return(-1)
   }
  
-  #GKgamma <- rcorr.cens(x,y,outx=T)["Dxy"]
-  #if( GKgamma %in%  c(-1,1)) {
-  #  return(unname(GKgamma))
-  #}
-
-  #op <- optim(par=c(log(1:(ncol(xytab)-1)), log(1:(nrow(xytab)-1)),cor(x,y)), optf_all, xytab=xytab, control=list(fnscale=-1), method="BFGS")
-  #fscale_corr(op$par[length(op$par)])
   ux <- sort(unique(x))
   cut1 <- imapTheta( sapply(ux[-length(ux)],function(z) qnorm(sum(w[x<=z])/sum(w)) ))
   uy <- sort(unique(y))
   cut2 <- imapTheta( sapply(uy[-length(uy)],function(z) qnorm(sum(w[y<=z])/sum(w)) ))
   
   cor0 <- atanh(cor(as.numeric(x),as.numeric(y)))
-  #bob <- bobyqa(c(cut1,cut2,cor0), fn=optf_all, xytab=xytab)
   if(ML) {
     bob <- bobyqa(c(cut1,cut2,cor0), fn=optf_all, xytab=xytab)
     return(fscale_corr(bob$par[length(bob$par)]))
   } else {
-    opt <- optimize(optf_corr, interval=cor0+c(-3,3), xytab=xytab, theta1=cut1,theta2=cut2)
-    return(  fscale_corr(opt$minimum))
+    opt <- optimize(optf_corr, interval = cor0 + c(-3, 3), xytab = xytab, theta1 = cut1,theta2 = cut2)
+    return(fscale_corr(opt$minimum))
   }
-  # should return above
+  # returns in above if/else
 }
